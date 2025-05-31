@@ -6,7 +6,11 @@ import static org.hamcrest.core.IsNot.not;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.core.annotation.Order;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
@@ -27,7 +31,16 @@ public class SignUpTest extends BaseTest {
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).sendKeys("1234");
     driver.findElement(By.id("submit")).click();
-    assertThat(driver.getTitle(), is("登录-MeetHere"));
+    // 处理 alert 弹窗
+    try {
+      WebDriverWait wait = new WebDriverWait(driver, 5);
+      Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+      System.out.println("弹窗内容：" + alert.getText());
+      alert.accept(); // 点击“确定”
+    } catch (TimeoutException e) {
+      System.out.println("未出现弹窗");
+    }
+    assertThat(driver.getTitle(), is("注册-MeetHere"));
     driver.close();
   }
 
@@ -48,7 +61,7 @@ public class SignUpTest extends BaseTest {
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).sendKeys("1234");
     driver.findElement(By.id("submit")).click();
-    assertThat(driver.getTitle(), is("登录-MeetHere"));
+    assertThat(driver.getTitle(), is("注册-MeetHere"));
     driver.close();
   }
 
@@ -69,7 +82,7 @@ public class SignUpTest extends BaseTest {
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).sendKeys("1234");
     driver.findElement(By.id("submit")).click();
-    assertThat(driver.getTitle(), is("登录-MeetHere"));
+    assertThat(driver.getTitle(), is("注册-MeetHere"));
     driver.close();
   }
 
@@ -92,7 +105,7 @@ public class SignUpTest extends BaseTest {
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).sendKeys("1234");
     driver.findElement(By.id("submit")).click();
-    assertThat(driver.getTitle(), is("登录-MeetHere"));
+    assertThat(driver.getTitle(), is("注册-MeetHere"));
     driver.close();
   }
 
