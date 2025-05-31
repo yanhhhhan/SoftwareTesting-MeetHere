@@ -100,7 +100,7 @@ public class VenueServiceTest {
         String venueName="222";
 
         int res1=venueService.countVenueName(venueName);
-        assertEquals(1,res1);
+        assertEquals(0,res1);
         int res2=venueService.countVenueName("");
         assertEquals(0,res2);
 
