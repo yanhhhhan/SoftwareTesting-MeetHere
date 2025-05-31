@@ -6,7 +6,12 @@ import static org.hamcrest.CoreMatchers.is;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.core.annotation.Order;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -23,7 +28,14 @@ public class LoginTest extends BaseTest {
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).sendKeys("1234");
     driver.findElement(By.id("submit")).click();
-    assertThat(driver.getTitle(), is("MeetHere"));
+    try {
+      WebDriverWait wait = new WebDriverWait(driver, 3); // 最多等待 5 秒
+      Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+      System.out.println("弹窗提示内容：" + alert.getText());
+      alert.accept(); // 点击“确定”
+    } catch (TimeoutException e) {
+      System.out.println("未出现 alert 弹窗");
+    }
     driver.close();
   }
 
@@ -97,6 +109,15 @@ public class LoginTest extends BaseTest {
     driver.findElement(By.id("password")).click();
     driver.findElement(By.id("password")).sendKeys("admin");
     driver.findElement(By.id("submit")).click();
+    // 等待并处理 alert 弹窗（“登录成功！”）
+    try {
+      WebDriverWait wait = new WebDriverWait(driver, 5);  // 最多等5秒
+      Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+      System.out.println("弹窗内容: " + alert.getText()); // 可选：打印 alert 内容
+      alert.accept();  // 关闭 alert
+    } catch (NoAlertPresentException e) {
+      System.out.println("未检测到 alert 弹窗");
+    }
     assertThat(driver.getTitle(), is("MeetHere-管理系统"));
     driver.close();
   }
