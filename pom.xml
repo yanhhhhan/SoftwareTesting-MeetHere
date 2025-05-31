@@ -112,6 +112,7 @@
                     <compilerArgs>
                         <arg>--add-exports</arg>
                         <arg>jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                        <arg>java.xml/com.sun.org.apache.xerces.internal.util=ALL-UNNAMED</arg>
                         <arg>--add-opens</arg>
                         <arg>jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
                     </compilerArgs>
